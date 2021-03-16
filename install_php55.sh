@@ -2,6 +2,7 @@
 # 1) 更新 套件
 #####################
 yum update -y 
+yum install epel-release -y
 
 ### 網路相關
 yum -y install telnet traceroute tcpdump lsof
@@ -17,7 +18,6 @@ yum -y install vim*
 yum install vim-enhanced -y
 vim --version
 
-yum install epel-release -y
 yum -y install supervisor
 
 #===================
