@@ -17,6 +17,9 @@ yum -y install vim*
 yum install vim-enhanced -y
 vim --version
 
+yum install epel-release -y
+yum -y install supervisor
+
 #===================
 #2)安裝 git,wget
 #===================
