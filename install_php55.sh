@@ -92,6 +92,26 @@ ExecReload=/usr/local/web/nginx/sbin/nginx -s reload
 WantedBy=multi-user.target
 EOF
 
+cat > /etc/logrotate.d/nginx <<EOF
+/var/log/nginx/*.log /var/log/nginx/json/*.json {
+    daily
+    missingok
+    rotate 14
+    compress
+    delaycompress
+    notifempty
+    sharedscripts
+    prerotate
+    if [ -d /etc/logrotate.d/httpd-prerotate ]; then \
+        run-parts /etc/logrotate.d/httpd-prerotate; \
+    fi; \
+    endscript
+    postrotate
+    /usr/local/web/nginx/sbin/nginx -s reload
+    endscript
+}
+EOF
+
 #============
 #gearmand
 #============
@@ -141,3 +161,20 @@ ExecReload=/bin/kill -USR2 $MAINPID
 WantedBy=multi-user.target
 EOF
 
+cat > /etc/logrotate.d/php-fpm <<EOF
+/var/log/php-fpm/php-fpm.access.log {
+    daily
+    create
+    missingok
+    rotate 7
+    compress
+    notifempty
+    dateext
+    sharedscripts
+    postrotate
+    if [ -f /var/run/php-fpm.pid ]; then
+        /bin/kill -USR1 `cat /var/run/php-fpm.pid`
+    fi
+    endscript
+}
+EOF
