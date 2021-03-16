@@ -75,7 +75,7 @@ yum -y install redis
 #6)安裝 nginx 
 #============
 cd /tmp;git clone https://github.com/kay71029/gcp_test.git
-cd /tmp;tar xvf /tmp/gcp_test/headers-more-nginx-module-master.tar.gz
+cd /tmp/gcp_test;tar xvf /tmp/gcp_test/headers-more-nginx-module-master.tar.gz
 mkdir -p /usr/local/web/nginx
 cd /tmp;wget http://nginx.org/download/nginx-1.8.1.tar.gz
 cd /tmp;tar zxvf nginx-1.8.1.tar.gz ;chown -R root:root nginx-1.8.1
@@ -132,25 +132,27 @@ cp /usr/local/gearmand/bin/gearman /usr/local/bin
 cp /usr/local/gearmand/bin/gearadmin /usr/bin
 cp /usr/local/gearmand/sbin/gearmand /usr/bin
 
+#============
+#8)安裝 php55
+#============
 
 cd /tmp;wget https://www.php.net/distributions/php-5.5.28.tar.gz
 cd /tmp;tar -xvf php-5.5.28.tar.gz
 chown -R root:root php-5.5.28
 yum install libxml2 libxml2-devel libmcrypt libjpeg-devel libpng libpng-devel freetype-devel libicu-devel glibc-headers gcc-c++ php-mcrypt  libmcrypt  libmcrypt-devel autoconf libgearman -y
 mkdir -p /usr/local/web/php
-./configure --prefix=/usr/local/web/php --with-config-file-path=/etc --with-mcrypt=/usr --with-openssl --with-mysql-sock --with-gd --with-jpeg-dir=/usr/lib --with-libxml-dir=/usr/lib --with-curl --with-iconv --with-gettext --with-freetype-dir=/usr --with-fpm-user=nobody --with-fpm-group=nobody --with-mysql=mysqlnd --with-pdo-mysql=mysqlnd --with-mysqli=mysqlnd --enable-mbstring --enable-fpm --enable-gd-native-ttf --enable-zip --enable-sockets --enable-exif --enable-ftp --enable-intl --enable-pcntl --enable-bcmath --enable-sysvshm --enable-sysvsem --with-zlib
+
+cd /tmp/php-5.5.28;./configure --prefix=/usr/local/web/php --with-config-file-path=/etc --with-mcrypt=/usr --with-openssl --with-mysql-sock --with-gd --with-jpeg-dir=/usr/lib --with-libxml-dir=/usr/lib --with-curl --with-iconv --with-gettext --with-freetype-dir=/usr --with-fpm-user=nobody --with-fpm-group=nobody --with-mysql=mysqlnd --with-pdo-mysql=mysqlnd --with-mysqli=mysqlnd --enable-mbstring --enable-fpm --enable-gd-native-ttf --enable-zip --enable-sockets --enable-exif --enable-ftp --enable-intl --enable-pcntl --enable-bcmath --enable-sysvshm --enable-sysvsem --with-zlib
 make;make install
 /usr/local/web/php/bin/php -v
-cp /home/git/no-debug-non-zts-20121212.tar.gz /tmp;
-tar zxvf no-debug-non-zts-20121212.tar.gz 
-chown -R root:root no-debug-non-zts-20121212.tar.gz
+cd /tmp/gcp_test;tar zxvf /tmp/gcp_test/php-extensions_55.tar.gz
 cd /usr/local/web/php/lib/php/extensions/no-debug-non-zts-20121212;
-cp /tmp/no-debug-non-zts-20121212/apcu.so .
-cp /tmp/no-debug-non-zts-20121212/gearman.so
-cp /tmp/no-debug-non-zts-20121212/gearman.so .
-cp /tmp/no-debug-non-zts-20121212/memcache.so .
-cp /tmp/no-debug-non-zts-20121212/redis.so .
-cp /tmp/no-debug-non-zts-20121212/uuid.so .
+cp /tmp/gcp_test/no-debug-non-zts-20121212/apcu.so .
+cp /tmp/gcp_test/no-debug-non-zts-20121212/gearman.so
+cp /tmp/gcp_test/no-debug-non-zts-20121212/gearman.so .
+cp /tmp/gcp_test/no-debug-non-zts-20121212/memcache.so .
+cp /tmp/gcp_test/no-debug-non-zts-20121212/redis.so .
+cp /tmp/gcp_test/no-debug-non-zts-20121212/uuid.so .
 cd /usr/bin;ln -fs /usr/local/web/php/bin/php
 
 cat > /usr/lib/systemd/system/php-fpm.service <<EOF
@@ -186,7 +188,7 @@ EOF
 
 
 #============
-#8)安裝 td-agent
+#9)安裝 td-agent
 #============
 yum -y install geoip-bin geoip-database libgeoip-dev ;yum install -y  GeoIP GeoIP-devel GeoIP-data libmaxminddb-devel
 yum -y install gcc-c++ patch readline readline-devel zlib zlib-devel libffi-deve openssl-devel make bzip2 autoconf automake libtool bison sqlite-devel
@@ -211,7 +213,7 @@ td-agent-gem install fluent-plugin-grok-parser
 td-agent-gem install kafka
 
 #============
-#9)系統設定
+#10)系統設定
 #============
 
 function change_limit(){
