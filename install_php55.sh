@@ -75,12 +75,12 @@ yum -y install redis
 #6)安裝 nginx 
 #============
 cd /tmp;git clone https://github.com/kay71029/gcp_test.git
-cd /tmp;tar xvf /tmp/headers-more-nginx-module-master.tar.gz
+cd /tmp;tar xvf /tmp/gcp_test/headers-more-nginx-module-master.tar.gz
 mkdir -p /usr/local/web/nginx
 cd /tmp;wget http://nginx.org/download/nginx-1.8.1.tar.gz
 cd /tmp;tar zxvf nginx-1.8.1.tar.gz ;chown -R root:root nginx-1.8.1
 cd /tmp/nginx-1.8.1
-./configure --prefix=/usr/local/web/nginx --conf-path=/etc/nginx/nginx.conf --pid-path=/usr/local/web/nginx/logs/nginx.pid --with-http_ssl_module --with-http_gzip_static_module --with-poll_module --with-http_stub_status_module --add-module=/tmp/headers-more-nginx-module-master
+./configure --prefix=/usr/local/web/nginx --conf-path=/etc/nginx/nginx.conf --pid-path=/usr/local/web/nginx/logs/nginx.pid --with-http_ssl_module --with-http_gzip_static_module --with-poll_module --with-http_stub_status_module --add-module=/tmp/gcp_test/headers-more-nginx-module-master
 make & make install
 /usr/local/web/nginx/sbin/nginx -v
 cd /usr/bin;ln -fs /usr/local/web/nginx/sbin/nginx
